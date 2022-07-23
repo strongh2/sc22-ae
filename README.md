@@ -83,11 +83,15 @@ The Docker and the Host GPU should all be ready if the above settings do not go 
 
 ### 1.1 Download this docker image from the official hub website.
 
-`docker pull strongh/sc22-ae:latest`
+```bash
+docker pull strongh/sc22-ae:latest
+```
 
 ### 1.2  Create a new docker container based on this image. 
 
-`docker run -it -P -w /home/sys/STRONGHOLD --name=aetesting --network=host --gpus=all --ipc=host strongh/sc22-ae:latest /bin/bash`
+```bash
+docker run -it -P -w /home/sys/STRONGHOLD --name=aetesting --network=host --gpus=all --ipc=host strongh/sc22-ae:latest /bin/bash`
+```
 
 ### 1.3 Check the runtime environment.
 

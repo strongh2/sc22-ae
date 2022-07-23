@@ -24,7 +24,7 @@ We provide a general description of how to launch a docker container using this 
 
 Before getting started, please make sure a Docker Engine has been installed. We recommend the installation of [Docker Community Edition (CE)](https://docs.docker.com/get-docker/). 
 
-Or, a linux user can run the following commands in a Linux terminal to get a Docker:
+Or, a Linux user can run the following commands in a Linux terminal to get a Docker:
 ```bash
 sudo apt-get update
 sudo apt-get install -y docker.io

@@ -6,7 +6,7 @@ Deep neural networks (DNNs) with billion-scale parameters have demonstrated impr
 
 We present STRONGHOLD, a better approach for enabling large DNN model training by dynamically offloading data to the CPU RAM and using the secondary storage (e.g., an SSD drive). It maintains a working window to overlap the GPU computation with CPU-GPU data movement carefully and exploits the multi-core CPU for optimizer update. Compared to the state-of-the-art offloading-based solutions, STRONGHOLD improves the trainable model size by 1.9x∼6.5x on a 32GB V100 GPU, with 1.2x∼3.7x improvement on the training throughput.
 
-## Our experiment set-up
+## Our experiment setup
 
 #### Hardware
 NVIDIA Tesla V100-GPU server with 2x 24-core Intel Xeon Platinum 8163 CPU at 2.50GHz and 755GB of DDR4 RAM. NVIDIA GPU (arch=sm_70) with device memory is 32GB. It is possible to evaluate our approach on a different NVIDIA GPU platform, but the results may deviate from the ones reported in the paper.  

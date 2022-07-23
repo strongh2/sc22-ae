@@ -50,7 +50,7 @@ sudo apt-get install -y docker.io
 
 Running the Docker command requires root privileges. It can be run by a user without root privileges by adding the username to the Docker group:
 ```bash
-sudo usermod -a -G docker \$USER
+sudo usermod -a -G docker $USER
 ```
 
 Run the following commands to enable GPU in Docker environment with NVIDIA container toolkit on the host machine. Details are from https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker.

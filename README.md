@@ -3,7 +3,7 @@
 
 ### !!! How to reproduce the experiment in the submitted paper?
 ####  Choice-1: An interactive jupyter notebook.
-One notebook runs on a virtual machine with a 32GB V100 GPU. The runtime environment has all been set, and the notebook is preconfigured for reviewers to reproduce the main results of the paper.  <!-- We recommend this choice to reviewers since the testing cases, launch scripts and descriptions have also been listed in this notebook. -->   <br>
+We have provided an interactive jupyter notebook run in a preconfigured server with a 32GB V100 GPU to make the reviewing process more straightforward. The runtime environment has been set, and all the scripts together with their descriptions have also been well-prepared for reviewers to reproduce the main results of the paper.  <!-- We recommend this choice to reviewers since the testing cases, launch scripts and descriptions have also been listed in this notebook. -->   <br>
 **jupyter link**:  [http://47.111.26.83:8888/notebooks/sc22ae.ipynb](http://47.111.26.83:8888/notebooks/sc22ae.ipynb) <br>
 **password**: see it in the ` Stage 1: Artifact Description` in the [sc submission system](https://submissions.supercomputing.org/) <br>
 

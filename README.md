@@ -6,12 +6,14 @@ Deep neural networks (DNNs) with billion-scale parameters have demonstrated impr
 
 We present STRONGHOLD, a better approach for enabling large DNN model training by dynamically offloading data to the CPU RAM and using the secondary storage (e.g., an SSD drive). It maintains a working window to overlap the GPU computation with CPU-GPU data movement carefully and exploits the multi-core CPU for optimizer update. Compared to the state-of-the-art offloading-based solutions, STRONGHOLD improves the trainable model size by 1.9x∼6.5x on a 32GB V100 GPU, with 1.2x∼3.7x improvement on the training throughput.
 
-## Our testing set-up
+## Our experiment set-up
 
 #### Hardware
-NVIDIA Tesla V100-GPU server with 2x 24-core Intel Xeon Platinum 8163 CPU at 2.50GHz and 755GB of DDR4 RAM. NVIDIA GPU (arch=sm_70) with device memory is 32GB. Note that for the Artifact Evaluation, we have rent a VM with one V100 for reviewers.
+NVIDIA Tesla V100-GPU server with 2x 24-core Intel Xeon Platinum 8163 CPU at 2.50GHz and 755GB of DDR4 RAM. NVIDIA GPU (arch=sm_70) with device memory is 32GB. It is possible to evaluate our approach on a different NVIDIA GPU platform, but the results may deviate from the ones reported in the paper.  
 
-#### OS
+Note that for the Artifact Evaluation, we have rent a VM with one V100 for reviewers.
+
+#### Operating System
 Ubutun 20.04 with Linux kernel 4.19.91
 
 #### Software
@@ -45,6 +47,37 @@ Or, a Linux user can run the following commands in a Linux terminal to get a Doc
 sudo apt-get update
 sudo apt-get install -y docker.io
 ```
+
+Running the Docker command requires root privileges. It can be run by a user without root privileges by adding the username to the Docker group:
+```bash
+sudo usermod -a -G docker \$USER
+```
+
+Run the following commands to enable GPU in Docker environment with NVIDIA container toolkit on the host machine. Details are from https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker.
+
+```bash
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
+  && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+```
+
+Then, install the nvidia-docker2 package after updating the package listing:
+
+```bash
+sudo apt-get update 
+sudo apt-get install -y nvidia-docker2
+sudo systemctl restart docker
+```
+
+Next, test if the GPU running environment is successfully configured. A working setup can show the GPU information by running a base CUDA container:
+
+```bash
+sudo docker run --rm --gpus all nvidia/cuda:11.0.3-base-ubuntu20.04 nvidia-smi
+```
+
+The Docker and the Host GPU should all be ready if the above settings do not go south.
 
 ## Step 1. Runtime Environment
 

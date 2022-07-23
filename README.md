@@ -1,7 +1,23 @@
 [![DOI](https://zenodo.org/badge/516906791.svg)](https://zenodo.org/badge/latestdoi/516906791)
 
+# STRONGHOLD: Fast and Affordable Billion-scale Deep Learning Model Training
 
-### !!! How to reproduce the experiment in the submitted paper?
+Deep neural networks (DNNs) with billion-scale parameters have demonstrated impressive performance in solving many tasks. Unfortunately, training a billion-scale DNN requires high-performance GPU servers that are too expensive to purchase and maintain. Existing solutions for enabling larger DNN training with limited resources are inadequate because they suffer from high training time overhead.
+
+We present STRONGHOLD, a better approach for enabling large DNN model training by dynamically offloading data to the CPU RAM and using the secondary storage (e.g., an SSD drive). It maintains a working window to overlap the GPU computation with CPU-GPU data movement carefully and exploits the multi-core CPU for optimizer update. Compared to the state-of-the-art offloading-based solutions, STRONGHOLD improves the trainable model size by 1.9x∼6.5x on a 32GB V100 GPU, with 1.2x∼3.7x improvement on the training throughput.
+
+## Our testing set-up
+
+#### Hardware
+NVIDIA Tesla V100-GPU server with 2x 24-core Intel Xeon Platinum 8163 CPU at 2.50GHz and 755GB of DDR4 RAM. NVIDIA GPU (arch=sm_70) with device memory is 32GB. Note that for the Artifact Evaluation, we have rent a VM with one V100 for reviewers.
+
+#### OS
+Ubutun 20.04 with Linux kernel 4.19.91
+
+#### Software
+CUDA 11.6, PyTorch 1.10.2
+
+## How to reproduce the experiment in the submitted paper?
 ####  Choice-1: An interactive jupyter notebook.
 We have provided an interactive jupyter notebook run in a preconfigured server with a 32GB V100 GPU to make the reviewing process more straightforward. The runtime environment has been set, and all the scripts together with their descriptions have also been well-prepared for reviewers to reproduce the main results of the paper.  <!-- We recommend this choice to reviewers since the testing cases, launch scripts and descriptions have also been listed in this notebook. -->   <br>
 **jupyter link**:  [http://47.111.26.83:8888/notebooks/sc22ae.ipynb](http://47.111.26.83:8888/notebooks/sc22ae.ipynb) <br>

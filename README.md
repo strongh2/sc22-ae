@@ -97,7 +97,7 @@ docker run -it -P -w /home/sys/STRONGHOLD --name=aetesting --network=host --gpus
 
 At this point, I believe the docker container is launched successfully, and the current terminal focus should be at the `/home/sys/STRONGHOLD` folder with `(py3.9.10)` virtual python environment, shown as
 
- `(py3.9.10) root@??:/home/sys/STRONGHOLD# `. 
+ `(py3.9.10) root@??:/home/sys/STRONGHOLD#`
 
 If not at the `STRONGHOLD` folder, please use the `cd /home/sys/STRONGHOLD` command to change the current location.
 

@@ -1,0 +1,17 @@
+l2l , total parameters , 1.717 , B
+l2l , total parameters , 4.033 , B
+megatron-lm , total parameters , 1.717 , B
+stronghold , total parameters , 5.141 , B
+stronghold , total parameters , 0.911 , B
+stronghold , total parameters , 1.314 , B
+stronghold , total parameters , 1.717 , B
+stronghold , total parameters , 2.119 , B
+stronghold , total parameters , 2.522 , B
+stronghold , total parameters , 2.925 , B
+stronghold , total parameters , 3.328 , B
+stronghold , total parameters , 4.033 , B
+stronghold , total parameters , 4.738 , B
+zero-infinity , total parameters , 1.717 , B
+zero-infinity , total parameters , 2.522 , B
+zero-offload , total parameters , 1.717 , B
+zero-offload , total parameters , 2.522 , B

@@ -4,7 +4,7 @@
 
 Deep neural networks (DNNs) with billion-scale parameters have demonstrated impressive performance in solving many tasks. Unfortunately, training a billion-scale DNN requires high-performance GPU servers that are too expensive to purchase and maintain. Existing solutions for enabling larger DNN training with limited resources are inadequate because they suffer from high training time overhead.
 
-We present STRONGHOLD, a better approach for enabling large DNN model training by dynamically offloading data to the CPU RAM and using the secondary storage (e.g., an SSD drive). It maintains a working window to overlap the GPU computation with CPU-GPU data movement carefully and exploits the multi-core CPU for optimizer update. Compared to the state-of-the-art offloading-based solutions, STRONGHOLD improves the trainable model size by 1.9x∼6.5x on a 32GB V100 GPU, with 1.2x∼3.7x improvement on the training throughput.
+We present StrongHold, a better approach for enabling large DNN model training by dynamically offloading data to the CPU RAM and using the secondary storage (e.g., an SSD drive). It maintains a working window to overlap the GPU computation with CPU-GPU data movement carefully and exploits the multi-core CPU for optimizer update. Compared to the state-of-the-art offloading-based solutions, StrongHold improves the trainable model size by 1.9x∼6.5x on a 32GB V100 GPU, with 1.2x∼3.7x improvement on the training throughput.
 
 ## Our experiment setup
 
@@ -81,15 +81,15 @@ The Docker and the Host GPU should all be ready if the above settings do not go 
 
 ## Step 1. Runtime Environment
 
-### 1.1 download this docker image from the official hub website.
+### 1.1 Download this docker image from the official hub website.
 
 `docker pull strongh/sc22-ae:latest`
 
-### 1.2  create a new docker container based on this image. 
+### 1.2  Create a new docker container based on this image. 
 
 `docker run -it -P -w /home/sys/STRONGHOLD --name=aetesting --network=host --gpus=all --ipc=host strongh/sc22-ae:latest /bin/bash`
 
-### 1.3 check the runtime environment.
+### 1.3 Check the runtime environment.
 
 At this point, I believe the docker container is launched successfully, and the current terminal focus should be at the `/home/sys/STRONGHOLD` folder with `(py3.9.10)` virtual python environment, shown as
 
@@ -99,7 +99,7 @@ If not at the `STRONGHOLD` folder, please use the `cd /home/sys/STRONGHOLD` comm
 
 If not at `(py3.9.10)` virtual python environment, please use `pyenv activate py3.9.10` to enter into `py3.9.10` virtual environment.
 
-### Note: if the host server's CUDA driver is lower than 11.4 or errors about the torch version occur, please reinstall `torch`, `torchvision` and `apex` libraries using the following commands.
+#### Note: if the host server's CUDA driver is lower than 11.4 or errors about the torch version occur, please reinstall `torch`, `torchvision` and `apex` libraries using the following commands.
 >
 ```bash
 pip uninstall torch torchvision apex
@@ -118,6 +118,31 @@ cd ${STAGE_DIR}/apex && \
     pip install -v --no-cache-dir --global-option='--cpp_ext' --global-option='--cuda_ext' . && \
 cd ${STAGE_DIR}/STRONGHOLD
 ```
+
+### 1.4 Experiment workflow
+The evaluation script is located at the `examples` folder, which should be executed from the parent directory. The script contains a number of configurable arguments to change the DNN setup. The script itself should self explain these parameters, which are summarized as follow: 
+
+- number of layers, (default=16)
+- hidden size, (default=2048)
+- number of heads, (default=16)
+- sequence length, (default=1024)
+- batch size, (default=4)
+- window size, (default=4) (only for StrongHold)
+
+The script can be executed by:
+```bash
+./examples/run.sh -m [METHOD] -l [NUM_LAYERS] -h [HIDDEN_SIZE] -b [BATCH_SIZE] -w [WINDOW_SIZE]
+```
+where the [METHOD] argument takes the following values: `megatron-lm`, `l2l`, `zero-offload`, `zero-infinity`, `stronghold` and `all`. Using `all` to automatically evaluate all approaches; the `[NUM_LAYERS]`, `[HIDDEN_SIZE]`, `[BATCH_SIZE]` and `[WINDOW_SIZE]` take integers, indicating the number of transformer layers, the hidden size of each layer, the training batch size and offloading window size, separately.
+
+#### Results:
+Evaluation results will be saved into the `results` folder, formatted as `log_[METHOD]_l-[NUM_LAYERS]_h-[HIDDEN_SIZE]_bs-[BATCH_SIZE]_ws-[WINDOW_SIZE]_[TIMESTAMP].txt`. The scripts of `./examples/case*_extract.sh` and `./examples/case*_draw.py` produce auto-generated diagrams, where `*` means the testing case id.
+
+#### Logs:
+Log files are stored in `/home/sys/STRONGHOLD/results` as a format of `log_[METHOD]_l-[NUM_LAYERS]_h-[HIDDEN_SIZE]_bs-[BATCH_SIZE]_ws-[WINDOW_SIZE]_[TIMESTAMP].txt`. We print the core content in the log files via `grep` and `awk` for you at the end of each execution. <!-- You can also view the additional progress of the script by running: `tail -f results/log-[METHOD]-[TIMESTAMP].txt` -->
+
+#### The next step will give more details to help you reproduce the major results in our paper. Please follow the guidelines below to evaluate each case.
+
 ## Step 2. Evaluation.
 
 To reuse the existing log files produced in the previous cases, we recommend running the following cases one by one, which reduces the total execution time to **around 5 hours**. 
@@ -163,7 +188,7 @@ PS: `Errors about GPU/CPU OOM` might be represented as other information, such a
 ./examples/run.sh -m "stronghold" -l 100 -h 2048
 ```
 
-> **`./examples/case1_extract.sh ` and `./examples/case1_draw.sh ` help you analysis log files and print the relevant information only.**
+> **`./examples/case1_extract.sh` and `./examples/case1_draw.sh` help you analysis log files and print the relevant information only.**
 
 
 #### 2.1.2 CASE - Throughput on the largest trainable model size supported by each baseline (Figure 7a in Section VI.B) 
